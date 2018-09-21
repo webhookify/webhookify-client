@@ -1,0 +1,23 @@
+{
+  "name": "webhookify-client",
+  "version": "1.0.0",
+  "description": "Client for webhookify, which loads and executes plugins",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jangxx/webhookify-client.git"
+  },
+  "keywords": [
+    "webhookfiy",
+    "client"
+  ],
+  "author": "jangxx <jangxx@protonmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jangxx/webhookify-client/issues"
+  },
+  "homepage": "https://github.com/jangxx/webhookify-client#readme"
+}
