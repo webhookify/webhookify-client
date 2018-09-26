@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/jangxx/webhookify-client/issues"
   },
-  "homepage": "https://github.com/jangxx/webhookify-client#readme"
+  "homepage": "https://github.com/jangxx/webhookify-client#readme",
+  "dependencies": {
+    "commander": "^2.18.0",
+    "is-uuid": "^1.0.2",
+    "ursa": "^0.9.4"
+  }
 }
