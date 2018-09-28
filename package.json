@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "webhookify": "./index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jangxx/webhookify-client.git"
@@ -23,6 +26,7 @@
   "dependencies": {
     "commander": "^2.18.0",
     "is-uuid": "^1.0.2",
+    "semver": "^5.5.1",
     "ursa": "^0.9.4"
   }
 }

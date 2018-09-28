@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+
+const packageInfo = require('./package.json');
 const fs = require('fs');
 const readline = require('readline');
 const util = require('util');
@@ -7,7 +10,7 @@ const ursa = require('ursa');
 const isUUID = require('is-uuid');
 
 program
-	.version("1.0.0");
+	.version(packageInfo.version);
 
 program.command("genkey")
 	.description("Generate a RSA keypair and write the result into the appropriate location.")
@@ -17,12 +20,14 @@ program.command("genkey")
 program.command("init")
 	.description("Creates a configuration file.")
 	.option("--clientid [clientid]", "Provide the client id")
+	.option("-O, --output [config.json]", "File to write the config to", "config.json")
 	.action(initializeConfig);
 
 program.command("run")
 	.description("Run the actual client")
 	.option("-C, --config [config.json]", "Alternative config file location", "config.json")
 	.option("-K, --keyfile [key.pem]", "Alternative keyfile location", "key.pem")
+	.option("-P, --plugin-path [path]", "Set one or more additional paths where plugins can be found", collect, [])
 	.action(require('./client'));
 
 program.parse(process.argv);
@@ -61,7 +66,7 @@ function generateKeypair(cmd) {
 	console.log();
 	console.log(keypair.toPublicPem().toString("utf8"));
 	console.log();
-	console.log("Please copy & paste this to the webhookify website");
+	console.log("Please copy & paste this to the webhookify website.");
 }
 
 function initializeConfig(cmd) {
@@ -99,11 +104,16 @@ function initializeConfig(cmd) {
 
 		return config;
 	}).then((config) => { //write config to file
-		if (fs.existsSync("config.json")) throw new Error("Config file (config.json) already exists.");
+		if (fs.existsSync(cmd.output)) throw new Error(`Config file (${cmd.output}) already exists.`);
 
-		return writeFile("config.json", JSON.stringify(config, undefined, 4));
+		return writeFile(cmd.output, JSON.stringify(config, undefined, 4));
 	}).catch((err) => {
 		console.log(err.message);
 		rl.close();
 	});
+}
+
+function collect(val, collection) {
+	collection.push(val);
+	return collection;
 }
