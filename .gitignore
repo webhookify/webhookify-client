@@ -63,3 +63,5 @@ typings/
 # generated files by the client
 *.pem
 config.json
+
+build/
