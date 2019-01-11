@@ -6,8 +6,9 @@ const readline = require('readline');
 const util = require('util');
 const path = require('path');
 
+const rsa_utils = require('./lib/rsa');
+
 const program = require('commander');
-const ursa = require('ursa');
 const isUUID = require('is-uuid');
 const configdir = require('utils-configdir');
 const mkdirp = require('mkdirp');
@@ -33,12 +34,12 @@ program.command("listplugins")
 	.description("Displays all installed plugins and their configuration if possible.")
 	.option("-C, --config [config.json]", "Alternative config file location", null)
 	.option("-P, --plugin-path [path]", "Set one or more additional paths where plugins can be found", collect, [])
-	.action(listPlugins)
+	.action(listPlugins);
 
 program.command("configure")
 	.description("Opens the config file.")
 	.option("-C, --config [config.json]", "Alternative config file location", null)
-	.action(openConfigFile)
+	.action(openConfigFile);
 
 program.command("run")
 	.description("Run the actual client.")
@@ -93,11 +94,11 @@ function openConfigFile(cmd) {
 				problems.push("clientId is not set");
 			}
 			if (!isUUID.v4(config.clientId)) {
-				problems.push("clientId has an invalid value")
+				problems.push("clientId has an invalid value");
 			}
 
 			if (config.plugins == undefined) {
-				problems.push("plugins key is missing")
+				problems.push("plugins key is missing");
 			} else {
 				for(let i in config.plugins) {
 					if (config.plugins[i].name == undefined) {
@@ -105,7 +106,7 @@ function openConfigFile(cmd) {
 					}
 					if (config.plugins[i].config == undefined) {
 						let name = (config.plugins[i].name != undefined) ? `"${config.plugins[i].name}"` : `number ${i}`;
-						problems.push(`plugin ${name} has no config set`)
+						problems.push(`plugin ${name} has no config set`);
 					}
 				}
 			}
@@ -155,7 +156,7 @@ function listPlugins(cmd) {
 		process.exit(0);
 	}
 
-	console.log("Installed plugins:")
+	console.log("Installed plugins:");
 	for(let i in plugins) {
 		console.log();
 		console.log(`Plugin: ${plugins[i].name}`);
@@ -192,14 +193,14 @@ function generateKeypair(cmd) {
 	}
 
 	console.log("Generating keypair with 2048 bit modulus...");
-	let keypair = ursa.generatePrivateKey(2048, 65537);
+	let keypair = rsa_utils.generateKeyPair();
 
 	console.log(`Writing keypair to ${keypair_path}...`);
-	fs.writeFileSync(keypair_path, keypair.toPrivatePem(), { mode: 0o400 });
+	fs.writeFileSync(keypair_path, keypair.privateKey, { mode: 0o400 });
 
 	console.log("The public component of your keypair is as follows:");
 	console.log();
-	console.log(keypair.toPublicPem().toString("utf8"));
+	console.log(keypair.publicKey);
 	console.log();
 	console.log("Please copy & paste this to the webhookify website.");
 }

@@ -1,6 +1,6 @@
 {
   "name": "webhookify-client",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Client for webhookify, which loads and executes plugins",
   "main": "index.js",
   "scripts": {
@@ -29,8 +29,10 @@
     "mkdirp": "^0.5.1",
     "opn": "^5.4.0",
     "semver": "^5.5.1",
-    "ursa": "^0.9.4",
     "utils-configdir": "^1.0.0",
-    "webhookify": "^1.0.2"
+    "webhookify": "^1.1.1"
+  },
+  "optionalDependencies": {
+    "ursa": "^0.9.4"
   }
 }
